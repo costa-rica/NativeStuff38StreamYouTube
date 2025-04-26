@@ -1,4 +1,4 @@
-# React Native Stuff Template
+# React Native Stuff 38 YouTube
 
 ## Description
 
@@ -13,6 +13,11 @@ EXPO_PUBLIC_API_URL=http://192.168.1.193:3000
 ```
 
 ## Installations
+
+### Youtube
+
+`yarn add react-native-youtube-iframe`
+`yarn add react-native-webview`
 
 ### 1. Navigation
 

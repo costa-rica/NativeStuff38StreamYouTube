@@ -19,6 +19,20 @@ export default function StreamYouTube01({ navigation }) {
     setPlaying((prev) => !prev);
   };
 
+  const rewind = async () => {
+    if (playerRef.current) {
+      const currentTime = await playerRef.current.getCurrentTime();
+      playerRef.current.seekTo(Math.max(currentTime - 2, 0), true);
+    }
+  };
+
+  const forward = async () => {
+    if (playerRef.current) {
+      const currentTime = await playerRef.current.getCurrentTime();
+      playerRef.current.seekTo(currentTime + 5, true);
+    }
+  };
+
   return (
     <ViewTemplate navigation={navigation}>
       <View style={styles.container}>
@@ -55,14 +69,22 @@ export default function StreamYouTube01({ navigation }) {
           />
         </View>
         <View style={styles.vwButtonContainer}>
-          <TouchableOpacity
-            onPress={togglePlaying}
-            style={styles.playPauseButton}
-          >
-            <Text style={styles.playPauseButtonText}>
-              {playing ? "Pause" : "Play"}
-            </Text>
-          </TouchableOpacity>
+          <View style={styles.vwButtonRow}>
+            <TouchableOpacity onPress={rewind} style={styles.skipButton}>
+              <Text style={styles.playPauseButtonText}>-2s</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={togglePlaying}
+              style={styles.playPauseButton}
+            >
+              <Text style={styles.playPauseButtonText}>
+                {playing ? "Pause" : "Play"}
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={forward} style={styles.skipButton}>
+              <Text style={styles.playPauseButtonText}>+5s</Text>
+            </TouchableOpacity>
+          </View>
         </View>
       </View>
     </ViewTemplate>
@@ -106,10 +128,21 @@ const styles = StyleSheet.create({
     marginTop: 20,
     alignItems: "center",
   },
+  vwButtonRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 10,
+  },
   playPauseButton: {
     backgroundColor: "black",
     paddingVertical: 10,
     paddingHorizontal: 20,
+    borderRadius: 5,
+  },
+  skipButton: {
+    backgroundColor: "black",
+    paddingVertical: 10,
+    paddingHorizontal: 10,
     borderRadius: 5,
   },
   playPauseButtonText: {

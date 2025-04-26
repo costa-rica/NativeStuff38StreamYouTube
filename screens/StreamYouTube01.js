@@ -7,13 +7,33 @@ import {
   Switch,
   TouchableOpacity,
 } from "react-native";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import ViewTemplate from "../screens_core/components/ViewTemplate";
 
 export default function StreamYouTube01({ navigation }) {
   const [isGreen, setIsGreen] = useState(false);
   const playerRef = useRef();
   const [playing, setPlaying] = useState(false);
+  const [currentTime, setCurrentTime] = useState(0);
+  const [duration, setDuration] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(async () => {
+      if (playerRef.current && playing) {
+        const time = await playerRef.current.getCurrentTime();
+        setCurrentTime(time);
+      }
+    }, 1000);
+    return () => clearInterval(interval);
+  }, [playing]);
+
+  const handleStateChange = (state) => {
+    if (state === "playing" && playerRef.current) {
+      playerRef.current.getDuration().then((dur) => {
+        setDuration(dur);
+      });
+    }
+  };
 
   const togglePlaying = () => {
     setPlaying((prev) => !prev);
@@ -41,8 +61,8 @@ export default function StreamYouTube01({ navigation }) {
             ref={playerRef}
             height={220}
             play={playing}
-            // videoId={"dQw4w9WgXcQ"}
             videoId={"EM5NOPZHx_k"}
+            onChangeState={handleStateChange}
             webViewProps={{
               allowsInlineMediaPlayback: true,
             }}
@@ -57,6 +77,16 @@ export default function StreamYouTube01({ navigation }) {
             style={[
               styles.coverView,
               { backgroundColor: isGreen ? "green" : "transparent" },
+            ]}
+          />
+        </View>
+        <View style={styles.timelineContainer}>
+          <View
+            style={[
+              styles.timelineProgress,
+              {
+                width: duration ? `${(currentTime / duration) * 100}%` : "0%",
+              },
             ]}
           />
         </View>
@@ -113,12 +143,25 @@ const styles = StyleSheet.create({
     opacity: 0.7,
     zIndex: 2,
   },
+  timelineContainer: {
+    height: 10,
+    backgroundColor: "#aaa",
+    width: "100%",
+    marginTop: 20,
+    marginBottom: 10,
+    borderRadius: 5,
+    overflow: "hidden",
+    // paddingTop: 20,
+  },
+  timelineProgress: {
+    height: "100%",
+    backgroundColor: "#8D0B90",
+  },
   vwSwitchTranparentView: {
-    // backgroundColor: "white",
-    // justifyContent: "center",
     alignItems: "center",
     flexDirection: "row",
     gap: 10,
+    // backgroundColor: "white",
   },
   switch: {
     // marginTop: 20,
@@ -127,6 +170,7 @@ const styles = StyleSheet.create({
   vwButtonContainer: {
     marginTop: 20,
     alignItems: "center",
+    // backgroundColor: "white",
   },
   vwButtonRow: {
     flexDirection: "row",

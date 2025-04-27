@@ -1,9 +1,9 @@
 {
   "expo": {
-    "name": "native-stuff-15",
-    "slug": "native-stuff-15",
+    "name": "native-stuff-38-youtube-streaming",
+    "slug": "native-stuff-38-youtube-streaming",
     "version": "1.0.0",
-    "orientation": "portrait",
+    "orientation": "default",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
@@ -23,6 +23,18 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "ebbf7496-96be-48e7-9f9e-18d018564fc3"
+      }
+    },
+    "owner": "costa-rica",
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/ebbf7496-96be-48e7-9f9e-18d018564fc3"
     }
   }
 }

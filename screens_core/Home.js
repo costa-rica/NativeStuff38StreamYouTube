@@ -17,6 +17,12 @@ export default function Home({ navigation }) {
       <ScrollView>
         <View style={styles.vwButtons}>
           <BtnHomNav
+            goTo={"ReviewVideo"}
+            title={"ReviewVideo"}
+            description={"Using ReviewVideo to display a Landscape View"}
+            navigation={navigation}
+          />
+          <BtnHomNav
             goTo={"StreamYouTube01"}
             title={"StreamYouTube01"}
             description={"How this works"}
